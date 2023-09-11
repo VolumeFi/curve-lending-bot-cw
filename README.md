@@ -1,0 +1,2 @@
+# Curve Lending Bot CosmWasm
+
