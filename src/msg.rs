@@ -3,7 +3,10 @@ use cosmwasm_std::{Binary, CustomMsg, Uint256};
 
 #[cw_serde]
 pub struct InstantiateMsg {
+    pub retry_delay: u64,
     pub job_id: String,
+    pub creator: String,
+    pub signers: Vec<String>,
 }
 
 #[cw_serde]
@@ -22,8 +25,25 @@ pub enum ExecuteMsg {
 #[cw_serde]
 pub struct BotInfo {
     pub bot: String,
+    pub swap_infos: Vec<SwapInfo>,
     pub collateral: String,
     pub amount: Uint256,
+}
+
+#[cw_serde]
+pub struct SwapInfo {
+    pub route: Vec<String>,
+    pub swap_params: Vec<Vec<Uint256>>,
+    pub amount: Uint256,
+    pub pools: Vec<String>,
+    pub expected: Uint256,
+}
+
+#[cw_serde]
+#[derive(Eq)]
+pub struct Metadata {
+    pub creator: String,
+    pub signers: Vec<String>,
 }
 
 /// Message struct for cross-chain calls.
@@ -33,6 +53,8 @@ pub struct PalomaMsg {
     pub job_id: String,
     /// The payload, ABI encoded for the target chain.
     pub payload: Binary,
+    /// Metadata
+    pub metadata: Metadata,
 }
 
 #[cw_serde]
