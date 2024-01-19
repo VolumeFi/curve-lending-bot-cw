@@ -118,8 +118,8 @@ pub mod execute {
                                         5,
                                     ),
                                     ParamType::Uint(256),
-                                    ParamType::FixedArray(Box::new(ParamType::Address), 5),
                                     ParamType::Uint(256),
+                                    ParamType::FixedArray(Box::new(ParamType::Address), 5),
                                 ]),
                             )))),
                             internal_type: None,
@@ -180,15 +180,15 @@ pub mod execute {
                         token_swap_info.push(Token::Uint(Uint::from_big_endian(
                             &swap_info.amount.to_be_bytes(),
                         )));
+                        token_swap_info.push(Token::Uint(Uint::from_big_endian(
+                            &swap_info.expected.to_be_bytes(),
+                        )));
                         let mut token_pools: Vec<Token> = vec![];
                         for pool in swap_info.pools {
                             token_pools
                                 .push(Token::Address(Address::from_str(pool.as_str()).unwrap()));
                         }
                         token_swap_info.push(Token::FixedArray(token_pools));
-                        token_swap_info.push(Token::Uint(Uint::from_big_endian(
-                            &swap_info.expected.to_be_bytes(),
-                        )));
                     }
                     token_swap_infos.push(Token::Array(token_swap_info));
                     token_collateral.push(Token::Address(
@@ -227,14 +227,14 @@ pub mod execute {
                     token_swap_info.push(Token::Uint(Uint::from_big_endian(
                         &swap_info.amount.to_be_bytes(),
                     )));
+                    token_swap_info.push(Token::Uint(Uint::from_big_endian(
+                        &swap_info.expected.to_be_bytes(),
+                    )));
                     let mut token_pools: Vec<Token> = vec![];
                     for pool in swap_info.pools {
                         token_pools.push(Token::Address(Address::from_str(pool.as_str()).unwrap()));
                     }
                     token_swap_info.push(Token::FixedArray(token_pools));
-                    token_swap_info.push(Token::Uint(Uint::from_big_endian(
-                        &swap_info.expected.to_be_bytes(),
-                    )));
                 }
                 token_swap_infos.push(Token::Array(token_swap_info));
                 token_collateral.push(Token::Address(

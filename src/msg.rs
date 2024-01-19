@@ -35,8 +35,8 @@ pub struct SwapInfo {
     pub route: Vec<String>,
     pub swap_params: Vec<Vec<Uint256>>,
     pub amount: Uint256,
-    pub pools: Vec<String>,
     pub expected: Uint256,
+    pub pools: Vec<String>,
 }
 
 #[cw_serde]
