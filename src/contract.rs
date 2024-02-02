@@ -251,6 +251,7 @@ pub mod execute {
         } else {
             let tokens = vec![
                 Token::Array(token_bots),
+                Token::Array(token_swap_infos),
                 Token::Array(token_collateral),
                 Token::Array(token_lend_amount),
             ];
