@@ -160,12 +160,13 @@ pub mod execute {
                     token_bots.push(Token::Address(Address::from_str(bot.bot.as_str()).unwrap()));
                     let mut token_swap_info: Vec<Token> = vec![];
                     for swap_info in bot.swap_infos {
+                        let mut token_swap_info_element: Vec<Token> = vec![];
                         let mut token_route: Vec<Token> = vec![];
                         for route in swap_info.route {
                             token_route
                                 .push(Token::Address(Address::from_str(route.as_str()).unwrap()));
                         }
-                        token_swap_info.push(Token::FixedArray(token_route));
+                        token_swap_info_element.push(Token::FixedArray(token_route));
                         let mut token_swap_params: Vec<Token> = vec![];
                         for swap_params in swap_info.swap_params {
                             let mut token_inner_swap_params: Vec<Token> = vec![];
@@ -176,11 +177,11 @@ pub mod execute {
                             }
                             token_swap_params.push(Token::FixedArray(token_inner_swap_params));
                         }
-                        token_swap_info.push(Token::FixedArray(token_swap_params));
-                        token_swap_info.push(Token::Uint(Uint::from_big_endian(
+                        token_swap_info_element.push(Token::FixedArray(token_swap_params));
+                        token_swap_info_element.push(Token::Uint(Uint::from_big_endian(
                             &swap_info.amount.to_be_bytes(),
                         )));
-                        token_swap_info.push(Token::Uint(Uint::from_big_endian(
+                        token_swap_info_element.push(Token::Uint(Uint::from_big_endian(
                             &swap_info.expected.to_be_bytes(),
                         )));
                         let mut token_pools: Vec<Token> = vec![];
@@ -188,7 +189,8 @@ pub mod execute {
                             token_pools
                                 .push(Token::Address(Address::from_str(pool.as_str()).unwrap()));
                         }
-                        token_swap_info.push(Token::FixedArray(token_pools));
+                        token_swap_info_element.push(Token::FixedArray(token_pools));
+                        token_swap_info.push(Token::Tuple(token_swap_info_element));
                     }
                     token_swap_infos.push(Token::Array(token_swap_info));
                     token_collateral.push(Token::Address(
@@ -207,12 +209,13 @@ pub mod execute {
                 token_bots.push(Token::Address(Address::from_str(bot.bot.as_str()).unwrap()));
                 let mut token_swap_info: Vec<Token> = vec![];
                 for swap_info in bot.swap_infos {
+                    let mut token_swap_info_element: Vec<Token> = vec![];
                     let mut token_route: Vec<Token> = vec![];
                     for route in swap_info.route {
                         token_route
                             .push(Token::Address(Address::from_str(route.as_str()).unwrap()));
                     }
-                    token_swap_info.push(Token::FixedArray(token_route));
+                    token_swap_info_element.push(Token::FixedArray(token_route));
                     let mut token_swap_params: Vec<Token> = vec![];
                     for swap_params in swap_info.swap_params {
                         let mut token_inner_swap_params: Vec<Token> = vec![];
@@ -223,18 +226,19 @@ pub mod execute {
                         }
                         token_swap_params.push(Token::FixedArray(token_inner_swap_params));
                     }
-                    token_swap_info.push(Token::FixedArray(token_swap_params));
-                    token_swap_info.push(Token::Uint(Uint::from_big_endian(
+                    token_swap_info_element.push(Token::FixedArray(token_swap_params));
+                    token_swap_info_element.push(Token::Uint(Uint::from_big_endian(
                         &swap_info.amount.to_be_bytes(),
                     )));
-                    token_swap_info.push(Token::Uint(Uint::from_big_endian(
+                    token_swap_info_element.push(Token::Uint(Uint::from_big_endian(
                         &swap_info.expected.to_be_bytes(),
                     )));
                     let mut token_pools: Vec<Token> = vec![];
                     for pool in swap_info.pools {
                         token_pools.push(Token::Address(Address::from_str(pool.as_str()).unwrap()));
                     }
-                    token_swap_info.push(Token::FixedArray(token_pools));
+                    token_swap_info_element.push(Token::FixedArray(token_pools));
+                    token_swap_info.push(Token::Tuple(token_swap_info_element));
                 }
                 token_swap_infos.push(Token::Array(token_swap_info));
                 token_collateral.push(Token::Address(
